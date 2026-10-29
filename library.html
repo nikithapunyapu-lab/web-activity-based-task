@@ -1,0 +1,608 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Digital Library Management</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background: #f4f7fb;
+            color: #263238;
+            line-height: 1.6;
+        }
+
+        /* Header */
+        header {
+            background: #17365d;
+            color: white;
+            padding: 20px 6%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        header h1 {
+            font-size: 26px;
+        }
+
+        nav {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        nav a:hover {
+            color: #fbbf24;
+        }
+
+        /* Banner */
+        .banner {
+            background: linear-gradient(120deg, #2563eb, #14b8a6);
+            color: white;
+            text-align: center;
+            padding: 45px 20px;
+        }
+
+        .banner h2 {
+            font-size: 34px;
+            margin-bottom: 10px;
+        }
+
+        .banner p {
+            font-size: 17px;
+        }
+
+        /* General Sections */
+        section {
+            padding: 30px 6%;
+        }
+
+        section h2 {
+            text-align: center;
+            margin-bottom: 22px;
+            color: #17365d;
+        }
+
+        /* Search and Filters */
+        .search-box {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr;
+            gap: 12px;
+            margin-bottom: 25px;
+        }
+
+        input, select {
+            padding: 12px;
+            border: 1px solid #cbd5e1;
+            border-radius: 6px;
+            font-size: 15px;
+            width: 100%;
+            background: white;
+        }
+
+        /* Book Categories */
+        .category-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 18px;
+        }
+
+        .category {
+            background: white;
+            text-align: center;
+            padding: 22px 12px;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px #00000010;
+            font-weight: bold;
+            color: #17365d;
+        }
+
+        .category span {
+            display: block;
+            font-size: 30px;
+            margin-bottom: 8px;
+        }
+
+        /* Book Cards */
+        .book-grid {
+            display: grid;
+            grid-template-columns: repeat(4, minmax(0, 1fr));
+            gap: 22px;
+        }
+
+        .book-card {
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 3px 10px #00000012;
+            padding-bottom: 18px;
+            text-align: center;
+        }
+
+        .book-card img {
+            width: 100%;
+            height: 210px;
+            object-fit: contain;
+            padding: 15px;
+            background: #eaf0f8;
+        }
+
+        .book-card h3 {
+            padding: 10px 12px 0;
+            color: #17365d;
+        }
+
+        .book-card p {
+            padding: 4px 12px;
+            font-size: 14px;
+        }
+
+        .available {
+            display: inline-block;
+            background: #dcfce7;
+            color: #166534;
+            padding: 4px 10px;
+            border-radius: 15px;
+            font-size: 13px;
+            margin-top: 8px;
+        }
+
+        .unavailable {
+            display: inline-block;
+            background: #fee2e2;
+            color: #991b1b;
+            padding: 4px 10px;
+            border-radius: 15px;
+            font-size: 13px;
+            margin-top: 8px;
+        }
+
+        /* Catalog Table */
+        .table-container {
+            overflow-x: auto;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px #00000010;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            min-width: 650px;
+        }
+
+        th, td {
+            padding: 13px;
+            border: 1px solid #dbe3ed;
+            text-align: left;
+        }
+
+        th {
+            background: #17365d;
+            color: white;
+        }
+
+        tr:nth-child(even) {
+            background: #f1f5f9;
+        }
+
+        /* Library Rules */
+        .rules {
+            background: white;
+            padding: 25px;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px #00000010;
+        }
+
+        .rules ul {
+            padding-left: 25px;
+        }
+
+        .rules li {
+            margin-bottom: 10px;
+        }
+
+        /* Footer */
+        footer {
+            background: #17365d;
+            color: white;
+            text-align: center;
+            padding: 20px;
+            margin-top: 20px;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 900px) {
+            .book-grid {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+            }
+
+            .category-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .search-box {
+                grid-template-columns: 1fr 1fr;
+            }
+
+            .search-box input {
+                grid-column: 1 / -1;
+            }
+        }
+
+        @media (max-width: 550px) {
+            header {
+                flex-direction: column;
+            }
+
+            nav {
+                justify-content: center;
+                gap: 12px;
+            }
+
+            .banner h2 {
+                font-size: 27px;
+            }
+
+            .book-grid,
+            .category-grid,
+            .search-box {
+                grid-template-columns: 1fr;
+            }
+
+            .search-box input {
+                grid-column: auto;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Header and Navigation -->
+    <header>
+        <h1>📚 Digital Library</h1>
+
+        <nav>
+            <a href="#home">Home</a>
+            <a href="#categories">Categories</a>
+            <a href="#books">Books</a>
+            <a href="#catalog">Catalog</a>
+            <a href="#rules">Library Rules</a>
+        </nav>
+    </header>
+
+    <!-- Banner -->
+    <section class="banner" id="home">
+        <h2>Welcome to Our Digital Library</h2>
+        <p>Discover books, explore knowledge, and develop your skills.</p>
+    </section>
+
+    <!-- Search and Filters -->
+    <section>
+        <h2>Search Books</h2>
+
+        <div class="search-box">
+            <input type="text" id="searchInput"
+                   placeholder="Search by book title or author..."
+                   aria-label="Search by book title or author">
+
+            <select id="categoryFilter" aria-label="Filter by category">
+                <option value="all">All Categories</option>
+                <option value="Programming">Programming</option>
+                <option value="Science">Science</option>
+                <option value="Mathematics">Mathematics</option>
+                <option value="Literature">Literature</option>
+            </select>
+
+            <select id="availabilityFilter"
+                    aria-label="Filter by availability">
+                <option value="all">All Availability</option>
+                <option value="Available">Available</option>
+                <option value="Issued">Issued</option>
+            </select>
+        </div>
+    </section>
+
+    <!-- Categories -->
+    <section id="categories">
+        <h2>Book Categories</h2>
+
+        <div class="category-grid">
+            <div class="category">
+                <span>💻</span>
+                Programming
+            </div>
+
+            <div class="category">
+                <span>🔬</span>
+                Science
+            </div>
+
+            <div class="category">
+                <span>📐</span>
+                Mathematics
+            </div>
+
+            <div class="category">
+                <span>📖</span>
+                Literature
+            </div>
+        </div>
+    </section>
+
+    <!-- Book Cards -->
+    <section id="books">
+        <h2>Featured Books</h2>
+
+        <div class="book-grid" id="bookGrid">
+
+            <article class="book-card"
+                data-title="Python Programming"
+                data-author="Reema Thareja"
+                data-category="Programming"
+                data-status="Available">
+
+                <img src="https://placehold.co/240x300/17365d/ffffff?text=Python%0AProgramming"
+                     alt="Python Programming book cover">
+
+                <h3>Python Programming</h3>
+                <p>Author: Reema Thareja</p>
+                <p>Category: Programming</p>
+                <p>Book ID: B101</p>
+                <span class="available">Available</span>
+            </article>
+
+            <article class="book-card"
+                data-title="Computer Science"
+                data-author="J. Glenn Brookshear"
+                data-category="Programming"
+                data-status="Issued">
+
+                <img src="https://placehold.co/240x300/0f766e/ffffff?text=Computer%0AScience"
+                     alt="Computer Science book cover">
+
+                <h3>Computer Science</h3>
+                <p>Author: J. Glenn Brookshear</p>
+                <p>Category: Programming</p>
+                <p>Book ID: B102</p>
+                <span class="unavailable">Issued</span>
+            </article>
+
+            <article class="book-card"
+                data-title="A Brief History of Time"
+                data-author="Stephen Hawking"
+                data-category="Science"
+                data-status="Available">
+
+                <img src="https://placehold.co/240x300/7c3aed/ffffff?text=History%0Aof+Time"
+                     alt="A Brief History of Time book cover">
+
+                <h3>A Brief History of Time</h3>
+                <p>Author: Stephen Hawking</p>
+                <p>Category: Science</p>
+                <p>Book ID: B103</p>
+                <span class="available">Available</span>
+            </article>
+
+            <article class="book-card"
+                data-title="Higher Engineering Mathematics"
+                data-author="B. S. Grewal"
+                data-category="Mathematics"
+                data-status="Available">
+
+                <img src="https://placehold.co/240x300/b45309/ffffff?text=Engineering%0AMathematics"
+                     alt="Engineering Mathematics book cover">
+
+                <h3>Engineering Mathematics</h3>
+                <p>Author: B. S. Grewal</p>
+                <p>Category: Mathematics</p>
+                <p>Book ID: B104</p>
+                <span class="available">Available</span>
+            </article>
+
+            <article class="book-card"
+                data-title="Pride and Prejudice"
+                data-author="Jane Austen"
+                data-category="Literature"
+                data-status="Issued">
+
+                <img src="https://placehold.co/240x300/9f1239/ffffff?text=Pride+and%0APrejudice"
+                     alt="Pride and Prejudice book cover">
+
+                <h3>Pride and Prejudice</h3>
+                <p>Author: Jane Austen</p>
+                <p>Category: Literature</p>
+                <p>Book ID: B105</p>
+                <span class="unavailable">Issued</span>
+            </article>
+
+            <article class="book-card"
+                data-title="Introduction to Algorithms"
+                data-author="Thomas H. Cormen"
+                data-category="Programming"
+                data-status="Available">
+
+                <img src="https://placehold.co/240x300/334155/ffffff?text=Introduction%0Ato+Algorithms"
+                     alt="Introduction to Algorithms book cover">
+
+                <h3>Introduction to Algorithms</h3>
+                <p>Author: Thomas H. Cormen</p>
+                <p>Category: Programming</p>
+                <p>Book ID: B106</p>
+                <span class="available">Available</span>
+            </article>
+
+        </div>
+
+        <p id="resultMessage" style="text-align:center; margin-top:20px;"
+           aria-live="polite"></p>
+    </section>
+
+    <!-- Structured Catalog Table -->
+    <section id="catalog">
+        <h2>Library Book Catalog</h2>
+
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Book ID</th>
+                        <th>Book Title</th>
+                        <th>Author</th>
+                        <th>Category</th>
+                        <th>Availability</th>
+                    </tr>
+                </thead>
+
+                <tbody id="catalogBody">
+                    <tr>
+                        <td>B101</td>
+                        <td>Python Programming</td>
+                        <td>Reema Thareja</td>
+                        <td>Programming</td>
+                        <td>Available</td>
+                    </tr>
+                    <tr>
+                        <td>B102</td>
+                        <td>Computer Science</td>
+                        <td>J. Glenn Brookshear</td>
+                        <td>Programming</td>
+                        <td>Issued</td>
+                    </tr>
+                    <tr>
+                        <td>B103</td>
+                        <td>A Brief History of Time</td>
+                        <td>Stephen Hawking</td>
+                        <td>Science</td>
+                        <td>Available</td>
+                    </tr>
+                    <tr>
+                        <td>B104</td>
+                        <td>Engineering Mathematics</td>
+                        <td>B. S. Grewal</td>
+                        <td>Mathematics</td>
+                        <td>Available</td>
+                    </tr>
+                    <tr>
+                        <td>B105</td>
+                        <td>Pride and Prejudice</td>
+                        <td>Jane Austen</td>
+                        <td>Literature</td>
+                        <td>Issued</td>
+                    </tr>
+                    <tr>
+                        <td>B106</td>
+                        <td>Introduction to Algorithms</td>
+                        <td>Thomas H. Cormen</td>
+                        <td>Programming</td>
+                        <td>Available</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+    <!-- Library Rules -->
+    <section id="rules">
+        <h2>Library Rules and Regulations</h2>
+
+        <div class="rules">
+            <ul>
+                <li>Students must carry their valid library ID cards.</li>
+                <li>Books must be returned before the due date.</li>
+                <li>Keep silence and maintain discipline in the library.</li>
+                <li>Do not damage, write in, or tear library books.</li>
+                <li>Late returns may be subject to a library fine.</li>
+                <li>Books marked as issued are not currently available.</li>
+                <li>Maintain cleanliness and switch mobile phones to silent mode.</li>
+            </ul>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <p>© 2026 Digital Library Management System</p>
+        <p>Read More | Learn More | Grow More</p>
+    </footer>
+
+    <!-- Search and Filter Functionality -->
+    <script>
+        const searchInput = document.getElementById("searchInput");
+        const categoryFilter = document.getElementById("categoryFilter");
+        const availabilityFilter =
+            document.getElementById("availabilityFilter");
+
+        const bookCards = document.querySelectorAll(".book-card");
+        const catalogRows =
+            document.querySelectorAll("#catalogBody tr");
+        const resultMessage = document.getElementById("resultMessage");
+
+        function filterBooks() {
+            const searchText = searchInput.value.toLowerCase();
+            const selectedCategory = categoryFilter.value;
+            const selectedStatus = availabilityFilter.value;
+
+            let visibleCount = 0;
+
+            bookCards.forEach((card, index) => {
+                const title = card.dataset.title.toLowerCase();
+                const author = card.dataset.author.toLowerCase();
+                const category = card.dataset.category;
+                const status = card.dataset.status;
+
+                const matchesSearch =
+                    title.includes(searchText) ||
+                    author.includes(searchText);
+
+                const matchesCategory =
+                    selectedCategory === "all" ||
+                    category === selectedCategory;
+
+                const matchesStatus =
+                    selectedStatus === "all" ||
+                    status === selectedStatus;
+
+                const show = matchesSearch &&
+                             matchesCategory &&
+                             matchesStatus;
+
+                card.style.display = show ? "" : "none";
+                catalogRows[index].style.display =
+                    show ? "" : "none";
+
+                if (show) {
+                    visibleCount++;
+                }
+            });
+
+            resultMessage.textContent =
+                visibleCount + " book(s) found.";
+        }
+
+        searchInput.addEventListener("input", filterBooks);
+        categoryFilter.addEventListener("change", filterBooks);
+        availabilityFilter.addEventListener("change", filterBooks);
+
+        filterBooks();
+    </script>
+
+</body>
+</html>
