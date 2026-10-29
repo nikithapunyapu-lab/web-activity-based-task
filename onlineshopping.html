@@ -1,0 +1,414 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ShopEase - Online Shopping</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f6f8;
+            color: #333;
+        }
+
+        /* Navigation Bar */
+        header {
+            background-color: #172554;
+            color: white;
+            padding: 18px 6%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .logo {
+            font-size: 27px;
+            font-weight: bold;
+            color: #facc15;
+        }
+
+        nav {
+            display: flex;
+            gap: 20px;
+            flex-wrap: wrap;
+        }
+
+        nav a {
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        nav a:hover {
+            color: #facc15;
+        }
+
+        .search {
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            width: 200px;
+        }
+
+        /* Promotional Banner */
+        .banner {
+            background: linear-gradient(120deg, #2563eb, #7c3aed);
+            color: white;
+            text-align: center;
+            padding: 55px 20px;
+        }
+
+        .banner h1 {
+            font-size: 38px;
+            margin-bottom: 15px;
+        }
+
+        .banner p {
+            font-size: 18px;
+            margin-bottom: 20px;
+        }
+
+        .banner button {
+            background-color: #facc15;
+            color: #172554;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 5px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        /* Categories */
+        .categories {
+            text-align: center;
+            padding: 30px 15px;
+        }
+
+        .categories h2 {
+            margin-bottom: 20px;
+        }
+
+        .category-list {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+
+        .category-list a {
+            background-color: white;
+            padding: 12px 22px;
+            border-radius: 20px;
+            text-decoration: none;
+            color: #172554;
+            border: 1px solid #ddd;
+        }
+
+        .category-list a:hover {
+            background-color: #dbeafe;
+        }
+
+        /* Product Section */
+        .products {
+            padding: 25px 6% 45px;
+        }
+
+        .products h2 {
+            text-align: center;
+            margin-bottom: 25px;
+        }
+
+        .product-grid {
+            display: grid;
+            grid-template-columns: repeat(4, minmax(0, 1fr));
+            gap: 22px;
+        }
+
+        .product-card {
+            background-color: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 3px 10px #00000015;
+            transition: transform 0.3s;
+        }
+
+        .product-card:hover {
+            transform: translateY(-5px);
+        }
+
+        .product-card img {
+            width: 100%;
+            height: 190px;
+            object-fit: contain;
+            padding: 12px;
+            background-color: #fff;
+        }
+
+        .product-info {
+            padding: 18px;
+        }
+
+        .discount {
+            color: #dc2626;
+            font-weight: bold;
+            font-size: 14px;
+        }
+
+        .product-info h3 {
+            margin: 10px 0;
+        }
+
+        .description {
+            font-size: 14px;
+            color: #666;
+            line-height: 1.5;
+            min-height: 42px;
+        }
+
+        .rating {
+            color: #eab308;
+            margin: 10px 0;
+        }
+
+        .price {
+            font-size: 21px;
+            font-weight: bold;
+            color: #15803d;
+        }
+
+        .old-price {
+            color: #888;
+            text-decoration: line-through;
+            font-size: 14px;
+            margin-left: 6px;
+        }
+
+        .buy-btn {
+            display: block;
+            width: 100%;
+            margin-top: 15px;
+            padding: 11px;
+            background-color: #2563eb;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+        }
+
+        .buy-btn:hover {
+            background-color: #1d4ed8;
+        }
+
+        /* Footer */
+        footer {
+            background-color: #172554;
+            color: white;
+            text-align: center;
+            padding: 22px;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 1000px) {
+            .product-grid {
+                grid-template-columns: repeat(2, minmax(0, 1fr));
+            }
+        }
+
+        @media (max-width: 600px) {
+            header {
+                flex-direction: column;
+            }
+
+            nav {
+                justify-content: center;
+            }
+
+            .search {
+                width: 100%;
+            }
+
+            .banner h1 {
+                font-size: 28px;
+            }
+
+            .product-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Navigation Bar -->
+    <header>
+        <div class="logo">ShopEase</div>
+
+        <nav>
+            <a href="#home">Home</a>
+            <a href="#categories">Categories</a>
+            <a href="#products">Products</a>
+            <a href="#contact">Contact</a>
+        </nav>
+
+        <input type="text" class="search"
+               placeholder="Search products..."
+               aria-label="Search products">
+        <a href="#products" style="color:white; text-decoration:none;">
+            🛒 Cart
+        </a>
+    </header>
+
+    <!-- Promotional Banner -->
+    <section class="banner" id="home">
+        <h1>Big Shopping Festival!</h1>
+        <p>Discover amazing products at exciting prices.</p>
+        <p>Up to 50% OFF on selected products</p>
+        <button onclick="document.getElementById('products')
+            .scrollIntoView({behavior:'smooth'})">
+            Shop Now
+        </button>
+    </section>
+
+    <!-- Product Categories -->
+    <section class="categories" id="categories">
+        <h2>Shop by Category</h2>
+
+        <div class="category-list">
+            <a href="#electronics">Electronics</a>
+            <a href="#fashion">Fashion</a>
+            <a href="#accessories">Accessories</a>
+            <a href="#homeproducts">Home Products</a>
+        </div>
+    </section>
+
+    <!-- Product Grid -->
+    <section class="products" id="products">
+        <h2>Featured Products</h2>
+
+        <div class="product-grid">
+
+            <!-- Product 1 -->
+            <article class="product-card" id="electronics">
+                <img src="https://placehold.co/300x200/e0e7ff/172554?text=Headphones"
+                     alt="Wireless headphones">
+                <div class="product-info">
+                    <span class="discount">30% OFF</span>
+                    <h3>Wireless Headphones</h3>
+                    <p class="description">
+                        Comfortable headphones with clear sound
+                        and wireless connectivity.
+                    </p>
+                    <p class="rating">★★★★★ (4.5)</p>
+                    <p class="price">₹1,399
+                        <span class="old-price">₹1,999</span>
+                    </p>
+                    <button class="buy-btn"
+                            onclick="addToCart('Wireless Headphones', 1399)">
+                        Add to Cart
+                    </button>
+                </div>
+            </article>
+
+            <!-- Product 2 -->
+            <article class="product-card" id="fashion">
+                <img src="https://placehold.co/300x200/fce7f3/831843?text=Sneakers"
+                     alt="Casual sneakers">
+                <div class="product-info">
+                    <span class="discount">25% OFF</span>
+                    <h3>Casual Sneakers</h3>
+                    <p class="description">
+                        Stylish and comfortable sneakers
+                        for everyday use.
+                    </p>
+                    <p class="rating">★★★★☆ (4.2)</p>
+                    <p class="price">₹1,499
+                        <span class="old-price">₹1,999</span>
+                    </p>
+                    <button class="buy-btn"
+                            onclick="addToCart('Casual Sneakers', 1499)">
+                        Add to Cart
+                    </button>
+                </div>
+            </article>
+
+            <!-- Product 3 -->
+            <article class="product-card" id="accessories">
+                <img src="https://placehold.co/300x200/dcfce7/14532d?text=Smart+Watch"
+                     alt="Smart watch">
+                <div class="product-info">
+                    <span class="discount">20% OFF</span>
+                    <h3>Smart Watch</h3>
+                    <p class="description">
+                        Track daily activities with a stylish
+                        smartwatch and useful features.
+                    </p>
+                    <p class="rating">★★★★★ (4.6)</p>
+                    <p class="price">₹2,399
+                        <span class="old-price">₹2,999</span>
+                    </p>
+                    <button class="buy-btn"
+                            onclick="addToCart('Smart Watch', 2399)">
+                        Add to Cart
+                    </button>
+                </div>
+            </article>
+
+            <!-- Product 4 -->
+            <article class="product-card" id="homeproducts">
+                <img src="https://placehold.co/300x200/fef3c7/78350f?text=Table+Lamp"
+                     alt="Modern table lamp">
+                <div class="product-info">
+                    <span class="discount">40% OFF</span>
+                    <h3>Modern Table Lamp</h3>
+                    <p class="description">
+                        A beautiful table lamp for your
+                        bedroom, desk, or study area.
+                    </p>
+                    <p class="rating">★★★★☆ (4.1)</p>
+                    <p class="price">₹899
+                        <span class="old-price">₹1,499</span>
+                    </p>
+                    <button class="buy-btn"
+                            onclick="addToCart('Modern Table Lamp', 899)">
+                        Add to Cart
+                    </button>
+                </div>
+            </article>
+
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer id="contact">
+        <p>© 2026 ShopEase | Online Shopping Website</p>
+        <p>Contact: support@shopease.example</p>
+    </footer>
+
+    <script>
+        let cartCount = 0;
+        let cartTotal = 0;
+
+        function addToCart(name, price) {
+            cartCount++;
+            cartTotal += price;
+
+            alert(name + " added to cart!\n" +
+                  "Items in cart: " + cartCount +
+                  "\nCart total: ₹" + cartTotal);
+        }
+    </script>
+
+</body>
+</html>
